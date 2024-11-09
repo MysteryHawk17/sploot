@@ -4,6 +4,10 @@ import dotenv from "dotenv";
 import connectDB from "./db/connectDB";
 import { MONGO_URI } from "./config/dbConfig";
 
+//routes import
+import UserRoutes from "./routes/user.routes";
+import BlogRoutes from "./routes/blog.routes";
+
 dotenv.config();
 
 const app = express();
@@ -11,6 +15,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 const port = process.env.PORT || 8000;
+
+app.use("/api/user", UserRoutes);
+app.use("/api/blog", BlogRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "SERVER STARTED AND RUNNING" });
