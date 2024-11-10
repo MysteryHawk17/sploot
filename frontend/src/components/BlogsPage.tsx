@@ -50,7 +50,7 @@ export default function BlogsPage() {
           <h1 className="text-3xl font-bold text-[#484848]">Blogs</h1>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {blogs.map((blog, index) => (
+          {blogs.length>0?blogs.map((blog, index) => (
             <div key={index} className="bg-white rounded-lg shadow-md p-6">
               <h2 className="text-xl font-semibold text-[#484848] mb-2">
                 {blog.title}
@@ -66,7 +66,7 @@ export default function BlogsPage() {
                 Read More
               </a>
             </div>
-          ))}
+          )):<><h2>No Blogs under the selected Category</h2></>}
         </div>
       </div>
     </div>
