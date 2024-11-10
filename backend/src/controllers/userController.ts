@@ -1,11 +1,19 @@
 import { Request, Response } from "express";
 import UserService from "../services/userServices";
 import { UserData, UserLoginData } from "../dto/user";
+import v2 from "../utils/cloudinary";
 
 class UserController {
   async createUser(req: Request, res: Response) {
     try {
+      let imageUrl: string = "";
+      if (req.file) {
+        const imagePath = req.file.path;
+        const uploadedFile = await v2.uploader.upload(imagePath);
+        imageUrl = uploadedFile.secure_url;
+      }
       const data: UserData = req.body;
+      data.profilePic = imageUrl;
       const user = await UserService.createUser(data);
       res.status(201).json(user);
     } catch (error: any) {

@@ -1,11 +1,12 @@
 import { Router } from "express";
 import userController from "../controllers/userController";
 import { authMiddleware } from "../middleware/authMiddleware";
+import { uploadHandler } from "../utils/multer";
 
 const router = Router();
 
 //user signup
-router.post("/register", userController.createUser);
+router.post("/register",uploadHandler, userController.createUser);
 //user login
 router.post("/login", userController.loginUser);
 

@@ -7,6 +7,9 @@ const categorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    thumbnail: {
+      type: String
+    }
   },
   { timestamps: true }
 );

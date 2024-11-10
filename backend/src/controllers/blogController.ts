@@ -11,6 +11,7 @@ class BlogController {
     this.createBlog = this.createBlog.bind(this);
     this.getAllBlogs = this.getAllBlogs.bind(this);
     this.getBlogById = this.getBlogById.bind(this);
+    this.getAllBlogCategories = this.getAllBlogCategories.bind(this);
   }
 
   async createBlog(req: Request, res: Response) {
@@ -68,6 +69,17 @@ class BlogController {
 
       const blog = await this.blogService.getBlogById(vBlogIdF);
       res.status(200).json(blog);
+    } catch (error: any) {
+      res
+        .status(error.status || 500)
+        .json({ message: error.message || "Internal Server Error" });
+    }
+  }
+
+  async getAllBlogCategories(req: Request, res: Response) {
+    try {
+      const categories = await this.blogService.getAllBlogCateogories();
+      res.status(200).json(categories);
     } catch (error: any) {
       res
         .status(error.status || 500)

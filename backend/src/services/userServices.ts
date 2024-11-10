@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 
 class UserService {
   async createUser(data: UserData) {
-    const { name, email, password } = data;
+    const { name, email, password, profilePic } = data;
 
     const findUser = await this.getUserByEmail(email);
     if (findUser) {
@@ -21,6 +21,7 @@ class UserService {
       email: email,
       password: hashedPassword,
       name: name,
+      profilePic: profilePic,
     });
 
     const savedUser = await newUser.save();
@@ -34,7 +35,8 @@ class UserService {
     const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET, {
       expiresIn: "24h",
     });
-    return { token: token };
+    const user = await userModel.findById({ _id: savedUser._id }).lean().select("-password");
+    return { token: token, user: user };
   }
 
   async loginUser(data: UserLoginData) {
@@ -57,11 +59,13 @@ class UserService {
     const token = jwt.sign({ _id: findUser._id }, JWT_SECRET, {
       expiresIn: "24h",
     });
-    return { token: token };
+    const { password, ...userDetails } = findUser;
+
+    return { token: token, user: userDetails };
   }
 
   private async getUserByEmail(email: string) {
-    return userModel.findOne({ email: email });
+    return userModel.findOne({ email: email }).lean();
   }
 
   async getUserByUserId(id: ObjectId) {

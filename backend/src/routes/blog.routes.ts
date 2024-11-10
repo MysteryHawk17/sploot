@@ -16,4 +16,9 @@ router.get("/all/:id", authMiddleware, blogController.getAllBlogs);
 
 router.get("/blog/:id", authMiddleware, blogController.getBlogById);
 
+/*get all categories
+Ideally should be present in its own route folder
+*/
+router.get("/categories", blogController.getAllBlogCategories);
+
 export default router;

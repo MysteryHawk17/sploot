@@ -32,7 +32,9 @@ class BlogService {
     if (!doesCategoryExists) {
       throw { status: 422, message: "Incorrect CategoryId" };
     }
-    const findAllBlogs = await blogModel.find({ category: categoryId });
+    const findAllBlogs = await blogModel
+      .find({ category: categoryId })
+      .populate("userId", "email");
     if (!findAllBlogs) {
       throw { status: 404, message: "No Blogs Found" };
     }
@@ -45,6 +47,14 @@ class BlogService {
       throw { status: 404, message: "Blog Not found" };
     }
     return findBlog;
+  }
+
+  async getAllBlogCateogories() {
+    const allCategories = await categoryModel.find();
+    if (!allCategories) {
+      throw { status: 501, message: "Failed to ffetch data" };
+    }
+    return allCategories;
   }
 }
 

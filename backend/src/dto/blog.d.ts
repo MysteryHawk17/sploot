@@ -16,4 +16,5 @@ export interface BlogInput {
 }
 export interface Category {
   name: string;
+  thumbnail: string;
 }
